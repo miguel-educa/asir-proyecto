@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Miguel Chain</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    margin-top: 20px;
+    text-align: center;
+    color: #333;
+}
+form {
+    width: 300px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+input[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 25px;
+}
+
+input[type="submit"]:hover {
+    background-color: #104e13;
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+</style>
+</head>
+<body>
+    <h1>Acceso a votación</h1>
+
+    <form id="login" onsubmit="return validar()">
+        <div id="error" class="error"></div>
+        <label for="dni">DNI:</label>
+        <input type="text" id="dni" name="dni" required>
+        <br>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Login">
+    </form>
+
+<script>
+    // DNI y contraseña de los votantes
+    votantes = {}
+    for (let i = 1; i <= 100; i++) {
+        votantes['U_'+i] = '12345'
+    }
+
+    // Validación y redirección
+    function validar() {
+        var dni = document.getElementById('dni').value;
+        var password = document.getElementById('password').value;
+        var error = document.getElementById('error');
+
+        if (votantes[dni] === password) {
+            window.location.href = '/votar/'+dni;
+            return false;
+        } else {
+            error.textContent = '*DNI o contraseña incorrectos';
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

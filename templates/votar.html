@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votar | Miguel Chain</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    margin-top: 20px;
+    text-align: center;
+    color: #333;
+}
+p {
+    text-align: center;
+    font-size: 18px;
+}
+form {
+    width: 300px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+input[type="radio"] {
+    margin-right: 5px;
+}
+input[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 25px;
+}
+input[type="submit"]:hover {
+    background-color: #104e13;
+}
+</style>
+</head>
+<body>
+    <h1>Formulario de Votación</h1>
+    <p>Bienvenido <b>{{ dni }}</b></p>
+
+    <form id="votacion">
+        <input type="text" id="usuario" name="usuario" value="{{ dni }}" hidden>
+
+        <label for="voto">Elija a un candidato:</label>
+        <input type="radio" name="voto" id="voto" value="A" checked>Candidato A<br>
+        <input type="radio" name="voto" id="voto" value="B">Candidato B<br>
+        <input type="radio" name="voto" id="voto" value="C">Candidato C<br>
+        <input type="radio" name="voto" id="voto" value="D">Candidato D
+      
+        <input type="submit" value="Votar">
+    </form>
+
+<script>
+    document.getElementById("votacion").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        // Valores del formulario
+        var voto = document.querySelector('input[name="voto"]:checked').value;
+        var usuario = document.getElementById("usuario").value;
+
+        // Datos a enviar
+        var data = {
+            usuario: usuario,
+            voto: 'Candidato '+voto
+        };
+
+        // Enviar datos para añadir un bloque a la cadena
+        fetch('/add_bloque', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+
+        // Respuesta
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            window.location.href = '/resultado';
+        })
+        .catch(error => {
+            alert('Error');
+        });
+    });
+</script>
+</body>
+</html>
+    
